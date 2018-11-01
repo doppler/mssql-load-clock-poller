@@ -4,10 +4,14 @@ const configureSequelize = require("./configure-sequelize");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.get("/", (req, res) => {
+  res.send("Try /Houston or /Dallas");
+});
+
 app.get("/:locationId", async (req, res) => {
   const sequelize = await configureSequelize(req.params.locationId);
   const data = await fetchData(sequelize);
-  res.send(data);
+  res.json(data);
 });
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
