@@ -1,18 +1,36 @@
 const express = require("express");
 const configureSequelize = require("./configure-sequelize");
+const allowCrossDomain = require("./allow-cross-domain");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(allowCrossDomain);
+
+// app.all("*", (req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+//   next();
+// });
 
 app.get("/", (req, res) => {
   res.send("Try /Houston or /Dallas");
 });
 
+/*
+`app.all('*', function(req, res, next) {
+     var origin = req.get('origin');
+     res.header('Access-Control-Allow-Origin', origin);
+     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+     res.header('Access-Control-Allow-Headers', 'Content-Type');
+     next();
+});`
+*/
 app.get("/:locationId", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Credentials", "false");
-  res.set("Access-Control-Allow-Headers", "Content-Type");
-  res.set("Access-Control-Allow-Methods", "GET,OPTIONS");
+  // res.set("Access-Control-Allow-Origin", "*");
+  // res.set("Access-Control-Allow-Credentials", "false");
+  // res.set("Access-Control-Allow-Headers", "Content-Type");
+  // res.set("Access-Control-Allow-Methods", "GET,OPTIONS");
   const sequelize = await configureSequelize(req.params.locationId);
   const data = await fetchData(sequelize);
   res.json(data);
