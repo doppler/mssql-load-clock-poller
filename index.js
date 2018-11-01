@@ -30,17 +30,23 @@ const executeStatement = query => {
     }
   });
 
+  const row = {};
+
   request.on("row", columns => {
-    const row = {};
     columns.map(column => {
       row[column.metadata.colName] = column.value;
     });
-    console.log(JSON.stringify(formatRow(row), undefined, 2));
   });
 
   request.on("done", (rowCount, more) => {
     console.log(`${rowCount} returned`);
+    console.log(`more ${more}`);
   });
+
+  request.on("requestCompleted", () => {
+    console.log(JSON.stringify(formatRow(row), undefined, 2));
+  });
+
   connection.execSql(request);
 };
 
