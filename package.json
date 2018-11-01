@@ -1,15 +1,21 @@
 {
-  "name": "tedious",
-  "version": "1.0.0",
-  "description": "",
+  "name": "load-clock-poller",
+  "version": "0.1.0",
+  "description": "Polls mssql db for load-clock data",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/doppler/mssql-load-clock-poller"
+  },
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "David Rose",
   "license": "ISC",
   "dependencies": {
     "date-fns": "^1.29.0",
+    "express": "^4.16.4",
     "sequelize": "^4.41.0",
     "tedious": "^2.6.4"
   }
