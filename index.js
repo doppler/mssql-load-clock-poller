@@ -10,6 +10,8 @@ app.get("/", (req, res) => {
 
 app.get("/:locationId", async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Credentials", "false");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
   res.set("Access-Control-Allow-Methods", "GET,OPTIONS");
   const sequelize = await configureSequelize(req.params.locationId);
   const data = await fetchData(sequelize);
