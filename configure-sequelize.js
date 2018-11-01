@@ -1,8 +1,9 @@
+require("dotenv").config();
+
 const Sequelize = require("sequelize");
-const config = require("./config.json")["Houston"];
 
 const configureSequelize = locationId => {
-  const config = require("./config.json")[locationId];
+  const config = JSON.parse(process.env[locationId]);
 
   return new Sequelize({
     username: config.userName,
