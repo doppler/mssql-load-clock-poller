@@ -1,6 +1,6 @@
 const buildSelectClause = require("./build-select-clause");
 
-async function getLoads(sequelize) {
+module.exports = async sequelize => {
   const selectStr = buildSelectClause({
     LastLoadName: "loadsFlownToday",
     LastLoadTime: "lastLoadTime"
@@ -11,6 +11,4 @@ async function getLoads(sequelize) {
   return sequelize.query(query, { nest: true }).then(rows => {
     return rows[0];
   });
-}
-
-module.exports = getLoads;
+};

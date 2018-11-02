@@ -1,6 +1,6 @@
 const buildSelectClause = require("./build-select-clause");
 
-async function getClock(sequelize) {
+module.exports = async sequelize => {
   const selectStr = buildSelectClause({
     Enabled: "enabled",
     Running: "running",
@@ -15,6 +15,4 @@ async function getClock(sequelize) {
   const query = `SELECT ${selectStr} from clock`;
 
   return sequelize.query(query, { nest: true });
-}
-
-module.exports = getClock;
+};

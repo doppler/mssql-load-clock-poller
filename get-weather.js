@@ -1,6 +1,6 @@
 const buildSelectClause = require("./build-select-clause");
 
-async function getWeather(sequelize) {
+module.exports = async sequelize => {
   const selectStr = buildSelectClause({
     Direction: "winds.direction",
     CurrentSpeed: "winds.speed",
@@ -21,5 +21,4 @@ async function getWeather(sequelize) {
     .then(rows => {
       return rows[0];
     });
-}
-module.exports = getWeather;
+};
