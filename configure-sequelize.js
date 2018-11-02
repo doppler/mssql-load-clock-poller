@@ -1,10 +1,10 @@
-require("dotenv").config();
-
 const Sequelize = require("sequelize");
 
-const configureSequelize = locationId => {
-  const config = JSON.parse(process.env[locationId]);
-
+module.exports = async (locationId, c) => {
+  const config = c[locationId];
+  if (!config) {
+    return null;
+  }
   return new Sequelize({
     username: config.userName,
     password: config.password,
@@ -17,5 +17,3 @@ const configureSequelize = locationId => {
     }
   });
 };
-
-module.exports = configureSequelize;

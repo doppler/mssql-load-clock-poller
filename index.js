@@ -1,3 +1,8 @@
+require("dotenv").config();
+const config = {
+  Houston: JSON.parse(process.env.Houston),
+  Dallas: JSON.parse(process.env.Dallas)
+};
 const express = require("express");
 const configureSequelize = require("./configure-sequelize");
 const allowCrossDomain = require("./allow-cross-domain");
@@ -7,14 +12,19 @@ const PORT = process.env.PORT || 5000;
 
 app.use(allowCrossDomain);
 
-app.get("/", (req, res) => {
-  res.send("Try /Houston or /Dallas");
+app.get("/clock/:locationId", async (req, res) => {
+  const sequelize = await configureSequelize(req.params.locationId, config);
+  const data = await fetchData(sequelize);
+  res.json(data).end();
 });
 
-app.get("/:locationId", async (req, res) => {
-  const sequelize = await configureSequelize(req.params.locationId);
-  const data = await fetchData(sequelize);
-  res.json(data);
+app.get("/", (req, res) => {
+  const output = ["Houston", "Dallas"]
+    .map(location => {
+      return `<p><a href="/clock/${location}">${location}</a></p>`;
+    })
+    .join("");
+  res.send(output).end();
 });
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
